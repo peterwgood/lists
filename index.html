@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Lists</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+<style>
+body {
+	font-family: Arial, sans-serif;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <h1 class="m-2"> <span id="list-name">Lists</span>
+        <button id="rename-list" class="btn btn-secondary btn-sm"> <i class="fa-solid fa-clipboard"></i> </button>
+      </h1>
+      <input id="new-item" type="text" placeholder="Add new item" autofocus class="form-control mb-2 input-25">
+      <button id="add-item" class="btn btn-primary btn-block mb-4">Add</button>
+      <ul id="to-do-list" class="list-group">
+        <!-- items will be listed here -->
+      </ul>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
+<script>
+		let toDoList = [];
+		let listName = 'List';
+		
+		document.getElementById('add-item').addEventListener('click', addItem);
+		document.getElementById('new-item').addEventListener('keypress', (event) => {
+			if (event.key === 'Enter') {
+				addItem();
+			}
+		});
+		document.getElementById('rename-list').addEventListener('click', renameList);
+		
+		function addItem() {
+			const newItem = document.getElementById('new-item').value.trim();
+			if (newItem !== '') {
+				toDoList.push(newItem);
+				updateList();
+				document.getElementById('new-item').value = '';
+			}
+		}
+		
+		function updateList() {
+			const listHTML = toDoList.map((item, index) => {
+				return `
+					<li class="list-group-item" data-index="${index}">
+						<span>${item}</span>
+						<button class="edit btn btn-sm btn-secondary" onclick="editItem(${index})"><i class="fas fa-edit"></i></button>
+						<button class="delete btn btn-sm btn-danger" onclick="deleteItem(${index})"><i class="fa-solid fa-trash"></i></button>
+					</li>
+				`;
+			}).join('');
+			document.getElementById('to-do-list').innerHTML = listHTML;
+			
+			// Make the list sortable
+			// Make the list sortable
+			$('#to-do-list').sortable({
+				axis: 'y',
+				update: function(event, ui) {
+					const newIndex = ui.item.index();
+					const oldIndex = ui.item.data('index');
+					moveItem(oldIndex, newIndex);
+				}
+			});
+		}
+		
+		function moveItem(oldIndex, newIndex) {
+			toDoList.splice(newIndex, 0, toDoList.splice(oldIndex, 1)[0]);
+			updateList();
+		}
+		
+		function editItem(index) {
+			const itemText = toDoList[index];
+			const newItem = prompt('Edit item:', itemText);
+			if (newItem !== null) {
+				toDoList[index] = newItem.trim();
+				updateList();
+			}
+		}
+		
+		function deleteItem(index) {
+			toDoList.splice(index, 1);
+			updateList();
+		}
+		
+		function renameList() {
+			const newListName = prompt('Rename list:', listName);
+			if (newListName !== null) {
+				listName = newListName.trim();
+				document.getElementById('list-name').textContent = listName;
+			}
+		}
+	</script>
+</body>
+</html>
