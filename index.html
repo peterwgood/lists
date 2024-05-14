@@ -20,9 +20,10 @@ body {
 <div class="container">
   
       <div class="mt-4"></div>
-      <!-- <h1 class="m-2"> <span id="list-name">Lists</span>
+      <h3 class="m-2"> <span id="list-name">Lists</span>
        <button id="rename-list" class="btn btn-secondary btn-sm"> <i class="fa-solid fa-clipboard"></i> </button>
-      </h1>-->
+       <button id="reset-list" class="btn btn-danger btn-sm" onclick="resetList()">Reset</button>
+      </h3>
       <input id="new-item" type="text" placeholder="Add new item" autofocus class="form-control mb-2 input-25">
       <button id="add-item" class="btn btn-primary btn-block mb-4">Add</button>
       <ul id="to-do-list" class="list-group">
@@ -105,6 +106,11 @@ body {
 				listName = newListName.trim();
 				document.getElementById('list-name').textContent = listName;
 			}
+		}
+		
+		function resetList() {
+			toDoList = [];
+			updateList();
 		}
 	</script>
 </body>
