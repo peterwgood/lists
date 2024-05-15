@@ -19,17 +19,23 @@ body {
 <body>
 <div class="container">
   
-      <div class="mt-4"></div>
-      <h3 class="m-2"> <span id="list-name">Lists</span>
-       <button id="rename-list" class="btn btn-secondary btn-sm"> <i class="fa-solid fa-clipboard"></i> </button>
-       <button id="reset-list" class="btn btn-danger btn-sm" onclick="resetList()">Reset</button>
-      </h3>
-      <input id="new-item" type="text" placeholder="Add new item" autofocus class="form-control mb-2 input-25">
-      <button id="add-item" class="btn btn-primary btn-block mb-4">Add</button>
-      <ul id="to-do-list" class="list-group">
-        <!-- items will be listed here -->
-      </ul>
-   
+  <div class="mt-4"></div>
+  <h3 class="m-2"> 
+    <span id="list-name">List</span>
+    <button id="rename-list" class="btn btn-secondary btn-sm"> 
+      <i class="fa-solid fa-clipboard"></i> 
+    </button>
+    <button id="reset-list" class="btn btn-danger btn-sm" onclick="resetList()">Reset</button>
+  </h3>
+  <div class="input-group mb-4">
+    <input id="new-item" type="text" placeholder="Add new item" autofocus class="form-control">
+    <div class="input-group-append">
+      <button id="add-item" class="btn btn-primary">Add</button>
+    </div>
+  </div>
+  <ul id="to-do-list" class="list-group">
+    <!-- items will be listed here -->
+  </ul>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
@@ -59,8 +65,9 @@ body {
 				return `
 					<li class="list-group-item" data-index="${index}">
 						<span >${item}</span>
+<button class="delete btn btn-sm btn-danger " onclick="deleteItem(${index})"><i class="fa-solid fa-trash"></i></button>
 						<button class="edit btn btn-sm btn-secondary"  onclick="editItem(${index})"><i class="fas fa-edit"></i></button>
-						<button class="delete btn btn-sm btn-danger " onclick="deleteItem(${index})"><i class="fa-solid fa-trash"></i></button>
+					
 					</li>
 				`;
 			}).join('');
